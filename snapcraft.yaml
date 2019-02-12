@@ -30,13 +30,13 @@ parts:
     qt-version: 5.9.1
     qt-source-git: https://code.qt.io/qt/qt5.git
     qt-submodules: ['qtbase']
-    environment:
-      - CC: gcc-7
-      - CXX: g++-7
-      - QMAKE_CC: gcc-7
-      - QMAKE_CXX: g++-7
+#    environment:
+#      - CC: gcc-7
+#      - CXX: g++-7
+#      - QMAKE_CC: gcc-7
+#      - QMAKE_CXX: g++-7
     build-packages:
-      - gcc-7
+#      - gcc-7
       - qtbase5-dev
       - qtconnectivity5-dev
     stage-packages:
