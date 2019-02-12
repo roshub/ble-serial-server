@@ -46,6 +46,27 @@ parts:
       - -prefix
       - $SNAPCRAFT_STAGE
       - -release
+      - -force-debug-info
+      - -opensource
+      - -confirm-license
+      - -qt-zlib
+      - -qt-libpng
+      - -qt-libjpeg
+      - -qt-freetype
+      - -qt-harfbuzz
+      - -qt-pcre
+      - -qt-xcb
+      - -qt-xkbcommon-x11
+      - -no-gstreamer
+      - -no-gtkstyle
+      - -no-mirclient
+      - -no-opengl
       - -static
+      - -dbus-runtime
+      - -openssl-linked
+      - -nomake
+      - examples
+      - -nomake
+      - tests
     prime: [-./*]
 
