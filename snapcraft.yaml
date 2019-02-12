@@ -25,14 +25,27 @@ apps:
     command: bleSerialServer
 
 parts:
-  ble-serial-server:
-    plugin: qmake
-    source: src/
+  qt:
+    plugin: qtbuilder
+    qt-version: 5.9.1
+    qt-source-git: https://code.qt.io/qt/qt5.git
+    qt-submodules: ['qtbase']
+    environment:
+      - CC: gcc-7
+      - CXX: g++-7
+      - QMAKE_CC: gcc-7
+      - QMAKE_CXX: g++-7
     build-packages:
+      - gcc-7
       - qtbase5-dev
       - qtconnectivity5-dev
     stage-packages:
       # Here for the plugins-- they're not linked in automatically.
-      - libqt5gui5
       - libqt5bluetooth5
-    #after: [qt5conf] # A wiki part
+    configflags:
+      - -prefix
+      - $SNAPCRAFT_STAGE
+      - -release
+      - -static
+    prime: [-./*]
+
