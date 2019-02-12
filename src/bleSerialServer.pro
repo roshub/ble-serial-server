@@ -30,3 +30,7 @@ HEADERS += \
     consolereader.h \
     btleserialserver.h \
     btlecommand.h
+
+# install
+target.path = /bin
+INSTALLS += target
