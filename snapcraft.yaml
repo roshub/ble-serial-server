@@ -36,37 +36,16 @@ parts:
       - QMAKE_CC: gcc-7
       - QMAKE_CXX: g++-7
     build-packages:
+      - gcc-7
       - qtbase5-dev
       - qtconnectivity5-dev
     stage-packages:
       # Here for the plugins-- they're not linked in automatically.
-      - libqt5core5
       - libqt5bluetooth5
     configflags:
       - -prefix
       - $SNAPCRAFT_STAGE
       - -release
       - -static
-    after:
-      - gcc7
     prime: [-./*]
 
-  gcc7:
-    plugin: nil
-    build-packages:
-      - libmpc-dev
-      - libcloog-ppl-dev
-    override-pull: |
-      echo "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main" | \
-            sudo tee /etc/apt/sources.list.d/ubuntu-toolchain-r.list
-      sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 60C317803A41BA51845E371A1E9377A2BA9EF27F
-      sudo apt-get update \
-        -o Dir::Etc::sourcelist="sources.list.d/ubuntu-toolchain-r.list" \
-        -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"
-      snapcraftctl pull
-    override-build: |
-      sudo apt install gcc-7 g++-7 -o Debug::pkgProblemResolver=yes --no-install-recommends -y
-      sudo apt-mark auto gcc-7 g++-7
-      sudo rm -f /etc/apt/sources.list.d/ubuntu-toolchain-r.list
-      snapcraftctl build
-    prime: [-./*]
