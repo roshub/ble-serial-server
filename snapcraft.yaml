@@ -2,8 +2,23 @@ name: roshub-ble-serial-server
 version: 0.1
 summary: ble device service
 description: ble device service
+icon: icons/roshub_vector_logo-256x256.png
 base: core18
 confinement: strict
+grade: stable
+
+architectures:
+  - build-on: amd64
+    run-on: amd64
+
+  - build-on: i386
+    run-on: i386
+
+  - build-on: armhf
+    run-on: armhf
+
+  - build-on: arm64
+    run-on: arm64
 
 apps:
   ble-serial-server:
