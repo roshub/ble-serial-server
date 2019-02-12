@@ -53,8 +53,6 @@ parts:
       - -qt-xcb
       - -no-opengl
       - -no-glib
-      - -no-pulseaudio
-      - -no-alsa
       - -static
       - -dbus-runtime
       - -openssl-linked
