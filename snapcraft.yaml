@@ -22,7 +22,7 @@ architectures:
 
 apps:
   ble-serial-server:
-    command: bleSerialServer
+    command: bin/bleSerialServer
 
 parts:
   qt:
@@ -38,7 +38,6 @@ parts:
     build-packages:
 #      - gcc-7
       - libssl-dev
-      - libssl1.0-dev
       - qtbase5-dev
       - qtconnectivity5-dev
     stage-packages:
