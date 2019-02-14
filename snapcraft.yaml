@@ -23,7 +23,7 @@ architectures:
 apps:
   ble-serial-server:
     command: bin/bleSerialServer
-    plugs: [bluetooth-control, bluez]
+    plugs: [bluetooth-control, bluez, network, network-bind, network-observe]
 
 parts:
   qt:

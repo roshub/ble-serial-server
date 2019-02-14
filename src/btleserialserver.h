@@ -48,7 +48,7 @@ class BtLESerialServer : public QObject
   public:
     explicit BtLESerialServer(ConsoleReader* input, QObject *parent = 0);
 
-    int startServer();
+    int startServer(QStringList args);
     void stopServer();
 
   signals:

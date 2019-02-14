@@ -9,14 +9,23 @@ BtLESerialServer::BtLESerialServer(ConsoleReader* input, QObject *parent) : QObj
   qDebug("BtLESerialServer - constructor done");
 }
 
-
-int BtLESerialServer::startServer(){
-
+//owner_id, device_id
+int BtLESerialServer::startServer(QStringList args){
+  QByteArray owner_id;
+  QByteArray device_id;
+  if (args.length() < 3){
+    owner_id = ROSHUB_OWNER_ID;
+    device_id = ROSHUB_DEVICE_ID;
+  } else {
+    owner_id = QByteArray::fromHex(args.at(1).toUtf8());
+    device_id = QByteArray::fromHex(args.at(2).toUtf8());
+  }
   qDebug("BtLESerialServer - start server");
-
+  QString localName = QString("RosHub-").append(QHostInfo::localHostName());
+  localName.truncate(16);
   this->advertisingData.setDiscoverability(QLowEnergyAdvertisingData::DiscoverabilityGeneral);
   this->advertisingData.setIncludePowerLevel(true);
-  this->advertisingData.setLocalName(QString("RosHub - ").append(QHostInfo::localHostName()));
+  this->advertisingData.setLocalName(localName);
   this->advertisingData.setServices(QList<QBluetoothUuid>() /*<< QBluetoothUuid::SerialPort << QBluetoothUuid::DeviceInformation*/ << QBluetoothUuid(ROSHUB_INFO_SERVICE_UUID));
   //! Used serial profile due to adv packet size limits
 
@@ -42,7 +51,7 @@ int BtLESerialServer::startServer(){
 
 
   this->serialNumberCharData.setUuid(QBluetoothUuid(QBluetoothUuid::SerialNumberString));
-  this->serialNumberCharData.setValue(ROSHUB_DEVICE_ID.toHex());
+  this->serialNumberCharData.setValue(device_id.toHex());
   this->serialNumberCharData.setProperties(QLowEnergyCharacteristic::Read);
   /*this->clientConfig = QLowEnergyDescriptorData(QBluetoothUuid::ClientCharacteristicConfiguration, QByteArray(2, 0));
   this->serialNumberCharData.addDescriptor(this->clientConfig);*/
@@ -69,12 +78,12 @@ int BtLESerialServer::startServer(){
 
 
   this->roshubOwnerCharData.setUuid(QBluetoothUuid(ROSHUB_OWNER_CHAR_UUID));
-  this->roshubOwnerCharData.setValue(ROSHUB_OWNER_ID.prepend(0xff & User_RosHub).toHex());
+  this->roshubOwnerCharData.setValue(owner_id.prepend(0xff & User_RosHub).toHex());
   //this->roshubOwnerCharData.setValue("");
   this->roshubOwnerCharData.setProperties(QLowEnergyCharacteristic::Read);
 
   this->roshubIdCharData.setUuid(QBluetoothUuid(ROSHUB_ID_CHAR_UUID));
-  this->roshubIdCharData.setValue(ROSHUB_DEVICE_ID.prepend(0xff & Device_RosHub).toHex());
+  this->roshubIdCharData.setValue(device_id.prepend(0xff & Device_RosHub).toHex());
   //this->roshubIdCharData.setValue("");
   this->roshubIdCharData.setProperties(QLowEnergyCharacteristic::Read);
 

@@ -19,7 +19,7 @@ btSerialApp::~btSerialApp()
 
 void btSerialApp::run(){
   qDebug("Starting bluetooth LE");
-  if (bleServer->startServer() == -1)
+  if (bleServer->startServer(QCoreApplication::arguments()) == -1)
   {
     qWarning() << "Cannot start ble serial server! Application will exit...";
     emit done();
