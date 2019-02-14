@@ -21,7 +21,7 @@ void catchUnixSignals(const std::vector<int>& quitSignals,
     for ( int sig : quitSignals )
         signal(sig, handler);
 }
-
+//owner id, device id
 int main(int argc, char *argv[])
 {
   qDebug("hello!");
