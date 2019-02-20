@@ -6,12 +6,12 @@
 #include "consolereader.h"
 #include "btleserialserver.h"
 
-class btSerialApp : public QObject
+class BtSerialApp : public QObject
 {
     Q_OBJECT
   public:
-    explicit btSerialApp(QObject *parent = 0);
-    ~btSerialApp();
+    explicit BtSerialApp(QObject *parent = 0);
+    ~BtSerialApp();
 
   signals:
     void done();

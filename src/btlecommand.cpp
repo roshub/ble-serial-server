@@ -62,7 +62,7 @@ QMap<quint8,BtLEPacket> BtLEPacket::fromJson(quint8 sequence, QJsonDocument doc)
     pkt.data.fill(0x0, 16);
 
     for(quint8 i=0; i<dataLen; i++){
-      pkt.data[i] = (data[4+i]);
+      pkt.data[i] = (data[i + idx*16]);
     }
 
     packets.insert(idx, pkt);

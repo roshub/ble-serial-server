@@ -20,14 +20,20 @@ int BtLESerialServer::startServer(QStringList args){
     owner_id = QByteArray::fromHex(args.at(1).toUtf8());
     device_id = QByteArray::fromHex(args.at(2).toUtf8());
   }
+
   qDebug("BtLESerialServer - start server");
   QString localName = QString("RosHub-").append(QHostInfo::localHostName());
   localName.truncate(16);
   this->advertisingData.setDiscoverability(QLowEnergyAdvertisingData::DiscoverabilityGeneral);
-  this->advertisingData.setIncludePowerLevel(true);
+  this->advertisingData.setIncludePowerLevel(false);
   this->advertisingData.setLocalName(localName);
-  this->advertisingData.setServices(QList<QBluetoothUuid>() /*<< QBluetoothUuid::SerialPort << QBluetoothUuid::DeviceInformation*/ << QBluetoothUuid(ROSHUB_INFO_SERVICE_UUID));
-  //! Used serial profile due to adv packet size limits
+  this->advertisingData.setServices(QList<QBluetoothUuid>()
+                                    << QBluetoothUuid::DeviceInformation
+                                    << QBluetoothUuid(ROSHUB_INFO_SERVICE_UUID));
+
+  QByteArray advData = this->advertisingData.rawData();
+
+  qDebug() << "BtLESerialServer::startServer - adverisement services =" << this->advertisingData.services()[0].minimumSize();
 
   this->txCharData.setUuid(QBluetoothUuid(ROSHUB_TX_CHAR_UUID));
   this->txCharData.setValue(QByteArray(20, 0));
@@ -53,8 +59,6 @@ int BtLESerialServer::startServer(QStringList args){
   this->serialNumberCharData.setUuid(QBluetoothUuid(QBluetoothUuid::SerialNumberString));
   this->serialNumberCharData.setValue(device_id.toHex());
   this->serialNumberCharData.setProperties(QLowEnergyCharacteristic::Read);
-  /*this->clientConfig = QLowEnergyDescriptorData(QBluetoothUuid::ClientCharacteristicConfiguration, QByteArray(2, 0));
-  this->serialNumberCharData.addDescriptor(this->clientConfig);*/
 
   this->softwareVersionCharData.setUuid(QBluetoothUuid(QBluetoothUuid::SoftwareRevisionString));
   this->softwareVersionCharData.setValue(QByteArray::fromStdString("v1.0"));
@@ -78,13 +82,11 @@ int BtLESerialServer::startServer(QStringList args){
 
 
   this->roshubOwnerCharData.setUuid(QBluetoothUuid(ROSHUB_OWNER_CHAR_UUID));
-  this->roshubOwnerCharData.setValue(owner_id.prepend(0xff & User_RosHub).toHex());
-  //this->roshubOwnerCharData.setValue("");
+  this->roshubOwnerCharData.setValue(owner_id.prepend(0xff & User_RosHub));
   this->roshubOwnerCharData.setProperties(QLowEnergyCharacteristic::Read);
 
   this->roshubIdCharData.setUuid(QBluetoothUuid(ROSHUB_ID_CHAR_UUID));
-  this->roshubIdCharData.setValue(device_id.prepend(0xff & Device_RosHub).toHex());
-  //this->roshubIdCharData.setValue("");
+  this->roshubIdCharData.setValue(device_id.prepend(0xff & Device_RosHub));
   this->roshubIdCharData.setProperties(QLowEnergyCharacteristic::Read);
 
   //this->roshubInfoServiceData.setType(QLowEnergyServiceData::ServiceTypePrimary);
@@ -268,6 +270,8 @@ void BtLESerialServer::handleControllerStateChanged(QLowEnergyController::Contro
 void BtLESerialServer::startAdvertising(){
   qDebug() << "BtLESerialServer - startAdvertising()";
   if(this->leController){
+
+    qDebug() << "BtLESerialServer - adverisement size =" << this->advertisingData.rawData().length();
     this->leController->startAdvertising(QLowEnergyAdvertisingParameters(), this->advertisingData, this->advertisingData);
   }
 }
@@ -318,7 +322,8 @@ void BtLESerialServer::stopServer(){
 
 
 void BtLESerialServer::handleSendPacket(BtLEPacket packet){
-  qDebug() << "BtLESerialServer - Sending packet[" << packet.header.sequence << "," << packet.header.count << ", " << packet.header.FLAGS.flags << "]";
+  qDebug() << "BtLESerialServer - Sending packet[" << packet.header.sequence << "," << packet.header.index << " of " << packet.header.count << ", " << packet.header.FLAGS.flags << packet.header.FLAGS.data_length << "]";
+  qDebug() << "BtLESerialServer - Sending packet date = " <<  QString::fromLatin1(packet.data);
   QByteArray value = packet.serialize();
   Q_ASSERT(value.length() == 20);
 
