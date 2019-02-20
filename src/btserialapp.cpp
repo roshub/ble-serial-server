@@ -4,7 +4,7 @@
 #include <QCoreApplication>
 
 
-btSerialApp::btSerialApp(QObject *parent) : QObject(parent)
+BtSerialApp::BtSerialApp(QObject *parent) : QObject(parent)
 {
   app = QCoreApplication::instance();
   this->console = new ConsoleReader(this);
@@ -13,11 +13,11 @@ btSerialApp::btSerialApp(QObject *parent) : QObject(parent)
   QObject::connect(bleServer, SIGNAL(done()), this, SLOT(aboutToQuitApp()));
 }
 
-btSerialApp::~btSerialApp()
+BtSerialApp::~BtSerialApp()
 {
 }
 
-void btSerialApp::run(){
+void BtSerialApp::run(){
   qDebug("Starting bluetooth LE");
   if (bleServer->startServer(QCoreApplication::arguments()) == -1)
   {
@@ -29,7 +29,7 @@ void btSerialApp::run(){
   qInfo("bleSerialServer now running!");
 }
 
-void btSerialApp::aboutToQuitApp()
+void BtSerialApp::aboutToQuitApp()
 {
   qDebug("about to Quit!");
   qDebug("ble stop!");

@@ -6,6 +6,7 @@ QT -= gui
 TARGET = bleSerialServer
 CONFIG += console
 CONFIG += c++11
+CONFIG += debug
 CONFIG -= app_bundle
 
 CONFIG(debug, debug|release) {
