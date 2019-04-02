@@ -34,21 +34,27 @@ enum ValueChange { ValueUp, ValueDown };
 #define ROSHUB_OWNER_ID QByteArray::fromHex("5b8ddbb8d83bb0136e15a060")
 #define ROSHUB_DEVICE_ID QByteArray::fromHex("5b8ddbb9d83bb0136e15a067")
 
-enum RosHub_Types {
-    User_RosHub     = 0x1,
-    Team_RosHub     = 0x2,
-    Org_RosHub      = 0x3 ,
-    Device_RosHub   = 0x4,
-    App_RosHub      = 0x5
-};
 
 class BtLESerialServer : public QObject
 {
+   
+
     Q_OBJECT
+
   public:
+
+   enum RosHub_Types {
+      user     = 0x1,
+      team     = 0x2,
+      org      = 0x3,
+      device   = 0x4,
+      app      = 0x5
+    };
+    Q_ENUM(RosHub_Types);
+
     explicit BtLESerialServer(ConsoleReader* input, QObject *parent = 0);
 
-    int startServer(QStringList args);
+    int startServer(QMap<QString,QString> idList,  QMap<QString,unsigned char> typeList );
     void stopServer();
 
   signals:
