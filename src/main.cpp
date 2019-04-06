@@ -32,21 +32,21 @@ void catchUnixSignals(const std::vector<int>& quitSignals,
 int main(int argc, char *argv[])
 {
   QCoreApplication a(argc, argv);
-  QCoreApplication::setApplicationName("btSerialServer");
-  QCoreApplication::setApplicationVersion("0.1");
+  QCoreApplication::setApplicationName("bleSerialServer");
+  QCoreApplication::setApplicationVersion(VERSION_NUMBER);
 
   QCommandLineParser parser;
-  parser.setApplicationDescription("btSerialServer");
+  parser.setApplicationDescription("bleSerialServer");
   parser.addHelpOption();
   parser.addVersionOption();
   
   QCommandLineOption actorIDOption(QStringList() << "a" << "actor-id",
-        QCoreApplication::translate("main", "Actor ID in Hex (XX:XX...)"),
+        QCoreApplication::translate("main", "Actor ID in Hex (6d35d988e...)"),
         QCoreApplication::translate("main", "actor-id"));
   parser.addOption(actorIDOption);
 
   QCommandLineOption ownerIDOption(QStringList() << "o" << "owner-id",
-        QCoreApplication::translate("main", "Owner ID in Hex (XX:XX...)"),
+        QCoreApplication::translate("main", "Owner ID in Hex (6d35d988e...)"),
         QCoreApplication::translate("main", "owner-id"));
   parser.addOption(ownerIDOption);
 
