@@ -1,0 +1,10 @@
+*/node_modules/*
+.vscode/*
+*.snap
+yarn.lock
+*.o
+moc*.cpp
+moc*.h
+Makefile
+bleSerialServer
+.qmake.stash

@@ -2,7 +2,7 @@
 #include <QtCore>
 #include <iostream>
 #include <QCoreApplication>
-
+#include <QMap>
 
 BtSerialApp::BtSerialApp(QObject *parent) : QObject(parent)
 {
@@ -17,9 +17,9 @@ BtSerialApp::~BtSerialApp()
 {
 }
 
-void BtSerialApp::run(){
+void BtSerialApp::run(QMap<QString,QString> idList,  QMap<QString,unsigned char> typeList ){
   qDebug("Starting bluetooth LE");
-  if (bleServer->startServer(QCoreApplication::arguments()) == -1)
+  if (bleServer->startServer(idList, typeList) == -1)
   {
     qWarning() << "Cannot start ble serial server! Application will exit...";
     emit done();

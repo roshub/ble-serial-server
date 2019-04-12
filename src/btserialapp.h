@@ -17,7 +17,7 @@ class BtSerialApp : public QObject
     void done();
 
   public slots:
-    void run();
+    void run(QMap<QString,QString> idList,  QMap<QString,unsigned char> typeList );
     void aboutToQuitApp();
   private:
     BtLESerialServer* bleServer;
