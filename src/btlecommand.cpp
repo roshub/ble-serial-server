@@ -1,7 +1,7 @@
 #include "btlecommand.h"
 
 #define BTLE_MTU (20)
-#define MAX_INACTIVITY_SEC (5.0f)
+#define MAX_INACTIVITY_SEC (25.0f)
 #define MAX_INACTIVITY_MS (MAX_INACTIVITY_SEC*1000)
 
 quint8 BtLEPacketSequence = 0;
