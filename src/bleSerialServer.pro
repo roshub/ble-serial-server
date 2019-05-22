@@ -10,7 +10,7 @@ CONFIG += debug
 CONFIG -= app_bundle
 
 #DEFINES += VERSION_NUMBER=\\\"$$system(git describe --always --abbrev=8 --tags --dirty)\\\"
-DEFINES += VERSION_NUMBER=\\\"0.2\\\"
+DEFINES += VERSION_NUMBER=\\\"0.3\\\"
 
 CONFIG(debug, debug|release) {
     QMAKE_CXXFLAGS_DEBUG += -g3 -O0
