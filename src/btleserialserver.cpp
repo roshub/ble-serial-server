@@ -251,7 +251,7 @@ void BtLESerialServer::handleControllerStateChanged(QLowEnergyController::Contro
         //return;
       }
 
-      if(this->..isActive()){
+      if(this->advStartTimer.isActive()){
         qDebug() << "BtLESerialServer - advertise timer already running";
         return;
       }
