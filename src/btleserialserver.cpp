@@ -109,7 +109,7 @@ int BtLESerialServer::startServer(QMap<QString,QString> idList,  QMap<QString,un
     return 0;
   }
   this->advStartTimer.setSingleShot(true);
-  this->advStartTimer.start(5000);
+  this->advStartTimer.start(100);
 
   return 0;
 }
@@ -257,7 +257,7 @@ void BtLESerialServer::handleControllerStateChanged(QLowEnergyController::Contro
       }
       qDebug() << "BtLESerialServer - advertise timer";
       this->advStartTimer.setSingleShot(true);
-      this->advStartTimer.start(5000);
+      this->advStartTimer.start(100);
       //this->leController->startAdvertising(QLowEnergyAdvertisingParameters(), this->advertisingData, this->advertisingData);
     }
   }
@@ -268,7 +268,11 @@ void BtLESerialServer::startAdvertising(){
   if(this->leController){
 
     qDebug() << "BtLESerialServer - adverisement size =" << this->advertisingData.rawData().length();
-    this->leController->startAdvertising(QLowEnergyAdvertisingParameters(), this->advertisingData, this->advertisingData);
+    
+    QLowEnergyAdvertisingParameters advParams = QLowEnergyAdvertisingParameters();
+    advParams.setInterval(150, 250);
+    
+    this->leController->startAdvertising(advParams, this->advertisingData, this->advertisingData);
   }
 }
 
