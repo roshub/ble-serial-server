@@ -145,7 +145,7 @@ void BtLESerialServer::handleBLEError(QLowEnergyController::Error error){
   object.insert("client", clientInfo);
 
   QJsonDocument errDoc(object);
-  out << errDoc.toJson(QJsonDocument::Compact);
+  out << errDoc.toJson(QJsonDocument::Compact) << endl;
 }
 
 void BtLESerialServer::handleConsoleMessage(QString message){
@@ -221,7 +221,7 @@ void BtLESerialServer::handleControllerStateChanged(QLowEnergyController::Contro
     status.insert("state", "connected");
 
     doc = QJsonDocument(status);
-    out << doc.toJson(QJsonDocument::Compact);
+    out << doc.toJson(QJsonDocument::Compact) << endl;
 
     this->leController->stopAdvertising();
   }
@@ -237,7 +237,7 @@ void BtLESerialServer::handleControllerStateChanged(QLowEnergyController::Contro
     else{ status.insert("state", "reset"); }
 
     doc = QJsonDocument(status);
-    out << doc.toJson(QJsonDocument::Compact);
+    out << doc.toJson(QJsonDocument::Compact) << endl;
 
     if(state != QLowEnergyController::AdvertisingState){
       if(this->leController->error() == QLowEnergyController::AdvertisingError){
@@ -380,7 +380,7 @@ void BtLESerialServer::handleCommandRequest(quint8 seq, QJsonDocument jsonDoc) {
   QJsonDocument doc(object);
 
   QTextStream out(stdout);
-  out << doc.toJson(QJsonDocument::Compact);
+  out << doc.toJson(QJsonDocument::Compact) << endl;
 }
 
 void BtLESerialServer::handleCommandJsonError(QJsonParseError error, QByteArray json) {
